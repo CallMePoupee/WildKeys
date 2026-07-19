@@ -38,3 +38,7 @@ Thumbs.db
 
 # Installer temp
 installer/install.html
+
+# Packages / local shortcuts
+*.zip
+*.lnk
