@@ -1,0 +1,40 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Build / packaging
+build/
+dist/
+*.spec.bak
+
+# Local runtime data (user lists & locks)
+data/*.tmp
+data/*.lock
+data/.*.lock
+data/status.json
+data/worker.stop
+data/instance.log
+data/*.bak
+data/_mutex_test.py
+data/a.txt
+data/ae.txt
+data/b.txt
+data/be.txt
+
+# Keep a sample lists template if present; ignore live lists with secrets
+# data/lists.json is user data — do not publish personal lists
+data/lists.json
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+*.lnk
+.idea/
+.vscode/
+
+# Installer temp
+installer/install.html
