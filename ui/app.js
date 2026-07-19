@@ -868,7 +868,7 @@ async function bootUi() {
     const msg = String(err?.message || err || "");
     if (msg.includes("bridge-timeout") || msg.includes("Bridge not ready")) {
       showToast(
-        "Could not connect the app bridge. Quit WildKeys from the tray, then start it with Start WildKeys.bat.",
+        "Could not connect the app bridge. Quit WildKeys from the tray, then start it with WildKeys.bat.",
         "error"
       );
     } else {

@@ -36,7 +36,7 @@ if errorlevel 1 (
 REM App-launch shortcut with logo.ico (taskbar pin / double-click icon)
 if exist "%ICON%" (
   powershell -NoProfile -ExecutionPolicy Bypass -Command ^
-    "$p='%~dp0'; $lnk=Join-Path $p 'WildKeys.lnk'; $ico=Join-Path $p 'ui\logo.ico'; $ws=New-Object -ComObject WScript.Shell; $s=$ws.CreateShortcut($lnk); $s.TargetPath=(Join-Path $p 'Start WildKeys.bat'); $s.WorkingDirectory=$p.TrimEnd('\'); $s.IconLocation=$ico; $s.Description='WildKeys'; $s.Save()" >nul 2>&1
+    "$p='%~dp0'; $lnk=Join-Path $p 'WildKeys.lnk'; $ico=Join-Path $p 'ui\logo.ico'; $ws=New-Object -ComObject WScript.Shell; $s=$ws.CreateShortcut($lnk); $s.TargetPath=(Join-Path $p 'WildKeys.bat'); $s.WorkingDirectory=$p.TrimEnd('\'); $s.IconLocation=$ico; $s.Description='WildKeys'; $s.Save()" >nul 2>&1
 )
 
 if exist "%PYW%" (
