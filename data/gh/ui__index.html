@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WildKeys</title>
+  <link rel="icon" href="logo.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="styles.css?v=icon-pad28" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </noscript>
+</head>
+<body>
+  <div class="modal-root modal-loading" id="loadingModal">
+    <div class="modal-backdrop"></div>
+    <div class="modal modal-sm loading-card" role="status" aria-live="polite" aria-busy="true">
+      <div class="loading-body">
+        <img class="loading-logo" src="logo.png" width="56" height="56" alt="" />
+        <h2 class="loading-title">Loading</h2>
+        <p class="loading-sub">Starting WildKeys…</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="app">
+    <header class="titlebar" id="titlebar">
+      <div class="titlebar-drag" id="titlebarDrag">
+        <div class="brand">
+          <div class="mark">
+            <img class="mark-logo" src="logo.png" width="36" height="36" alt="" />
+          </div>
+          <div class="brand-text">
+            <h1>WildKeys</h1>
+            <p class="brand-byline">by Charlotte Chapdelaine</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="titlebar-right">
+        <div class="win-controls" aria-label="Window controls">
+          <button type="button" class="modal-close win-chrome" id="winMin" title="Minimize" aria-label="Minimize">
+            <img class="chrome-icon" src="minimize.svg" width="10" height="10" alt="" draggable="false" />
+          </button>
+          <button type="button" class="modal-close win-chrome win-close" id="winClose" title="Close" aria-label="Close">
+            <img class="chrome-icon" src="x.svg" width="10" height="10" alt="" draggable="false" />
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="app-body">
+    <main class="layout">
+      <section class="deck-panel">
+        <div class="panel-head deck-head">
+          <h2>Shortcut Deck</h2>
+          <label class="toggle" title="Enable or pause global hotkeys">
+            <input type="checkbox" id="enabledToggle" checked />
+            <span class="toggle-track">
+              <span class="toggle-thumb"></span>
+            </span>
+            <span class="toggle-label" id="toggleLabel">Armed</span>
+          </label>
+        </div>
+        <div class="deck" id="deck" role="list"></div>
+        <p class="deck-foot">
+          Each shortcut above can be assigned a list of text entries (right pane).<br />
+          Press the assigned hotkey to paste a random line from that list into the currently focused text field.
+        </p>
+      </section>
+
+      <aside class="editor-panel" id="editorPanel">
+        <div class="panel-head editor-head">
+          <div>
+            <h2 id="editorTitle">Select a key</h2>
+          </div>
+          <div class="key-combo editor-keys" id="editorShortcut" data-key="" aria-label="Shortcut">
+            <span class="key-badge mod">Ctrl</span>
+            <span class="key-badge mod">Alt</span>
+            <span class="key-badge letter" id="editorKeyLetter">—</span>
+          </div>
+        </div>
+
+        <label class="field">
+          <span class="field-label">List Name</span>
+          <input type="text" id="labelInput" maxlength="40" disabled />
+        </label>
+
+        <div class="field grow">
+          <span class="field-row">
+            <span class="field-label">Lines</span>
+            <span class="count" id="lineCount">0</span>
+          </span>
+          <div class="lines-editor" id="linesEditor">
+            <div class="line-gutter" id="lineGutter" aria-hidden="true">1</div>
+            <div class="lines-main">
+              <textarea
+                id="linesInput"
+                spellcheck="true"
+                disabled
+                wrap="off"
+              ></textarea>
+              <img class="save-success-gif" id="saveSuccessGif" src="success.gif" alt="" hidden />
+            </div>
+          </div>
+        </div>
+
+        <div class="editor-actions">
+          <button type="button" class="btn ghost" id="previewBtn" disabled>Preview</button>
+          <button type="button" class="btn primary" id="saveBtn" disabled>Save</button>
+        </div>
+
+        <div class="toast" id="toast" hidden></div>
+      </aside>
+    </main>
+    </div>
+
+  </div>
+
+  <div class="modal-root" id="previewModal" hidden>
+    <div class="modal-backdrop" data-close-modal="1"></div>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="previewModalTitle">
+      <header class="modal-head">
+        <h2 id="previewModalTitle">Preview</h2>
+        <button type="button" class="modal-close" id="previewModalClose" aria-label="Close">
+          <img class="chrome-icon" src="x.svg" width="10" height="10" alt="" draggable="false" />
+        </button>
+      </header>
+      <div class="modal-body">
+        <p class="modal-lead">Use the text field below to test the active shortcuts.</p>
+        <textarea id="previewModalText" class="modal-textarea" rows="5" spellcheck="true"></textarea>
+      </div>
+      <footer class="modal-actions">
+        <button type="button" class="btn primary" id="previewModalDone">Close</button>
+      </footer>
+    </div>
+  </div>
+
+  <div class="modal-root" id="unsavedModal" hidden>
+    <div class="modal-backdrop" data-close-unsaved="cancel"></div>
+    <div class="modal modal-sm" role="dialog" aria-modal="true" aria-labelledby="unsavedModalTitle">
+      <header class="modal-head">
+        <h2 id="unsavedModalTitle">Unsaved changes</h2>
+        <button type="button" class="modal-close" id="unsavedModalClose" aria-label="Close">
+          <img class="chrome-icon" src="x.svg" width="10" height="10" alt="" draggable="false" />
+        </button>
+      </header>
+      <div class="modal-body">
+        <p class="modal-lead">You have unsaved changes on this list.<br />Discard them and switch, or keep editing?</p>
+      </div>
+      <footer class="modal-actions">
+        <button type="button" class="btn ghost" id="unsavedKeepBtn">Keep editing</button>
+        <button type="button" class="btn primary" id="unsavedDiscardBtn">Discard</button>
+      </footer>
+    </div>
+  </div>
+
+  <div class="modal-root" id="errorModal" hidden>
+    <div class="modal-backdrop" data-close-error="1"></div>
+    <div class="modal modal-sm" role="alertdialog" aria-modal="true" aria-labelledby="errorModalTitle">
+      <header class="modal-head">
+        <h2 id="errorModalTitle">Cannot save</h2>
+        <button type="button" class="modal-close" id="errorModalClose" aria-label="Close">
+          <img class="chrome-icon" src="x.svg" width="10" height="10" alt="" draggable="false" />
+        </button>
+      </header>
+      <div class="modal-body">
+        <p class="modal-lead" id="errorModalLead">Please enter a list name before saving.</p>
+      </div>
+      <footer class="modal-actions">
+        <button type="button" class="btn primary" id="errorModalOk">OK</button>
+      </footer>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
